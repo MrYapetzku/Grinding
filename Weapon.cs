@@ -1,26 +1,73 @@
-﻿class Weapon
+﻿using System;
+
+public class Weapon
 {
-    public int Damage;
-    public int Bullets;
+    private readonly int _damage;
+    private int _bulletsCount;
+
+    public Weapon(int damage, int startBulletsCount)
+    {
+        if (damage < 0)
+            throw new ArgumentOutOfRangeException(nameof(damage));
+
+        if (startBulletsCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(startBulletsCount));
+
+        _damage = damage;
+        _bulletsCount = startBulletsCount;
+    }
 
     public void Fire(Player player)
     {
-        player.Health -= Damage;
-        Bullets -= 1;
+        if (_bulletsCount > 0)
+        {
+            player.TakeDamage(_damage);
+            _bulletsCount -= 1;
+        }
+        else
+        {
+            Console.WriteLine("Weapon empty.");
+        }
     }
 }
 
-class Player
+public class Player
 {
-    public int Health;
+    private int _health;
+
+    public Player(int startHealth)
+    {
+        if (startHealth <= 0)
+            throw new ArgumentOutOfRangeException(nameof(startHealth));
+
+        _health = startHealth;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (damage < _health)
+        {
+            _health -= damage;
+        }
+        else
+        {
+            _health = 0;
+            Console.WriteLine("Player died.");
+        }
+    }
 }
 
-class Bot
+public class Bot
 {
-    public Weapon Weapon;
+    private readonly Weapon _weapon;
+
+    public Bot(Weapon weapon)
+    {
+        _weapon = weapon;
+    }
 
     public void OnSeePlayer(Player player)
     {
-        Weapon.Fire(player);
+        _weapon.Fire(player);
     }
 }
