@@ -3,7 +3,7 @@
 public class Weapon
 {
     private readonly int _damage;
-    private int _bulletsCount;
+    private int _bullets;
 
     public Weapon(int damage, int startBulletsCount)
     {
@@ -14,19 +14,19 @@ public class Weapon
             throw new ArgumentOutOfRangeException(nameof(startBulletsCount));
 
         _damage = damage;
-        _bulletsCount = startBulletsCount;
+        _bullets = startBulletsCount;
     }
 
     public void Fire(Player player)
     {
-        if (_bulletsCount > 0)
+        if (_bullets > 0)
         {
             player.TakeDamage(_damage);
-            _bulletsCount -= 1;
+            _bullets -= 1;
         }
         else
         {
-            Console.WriteLine("Weapon empty.");
+            throw new ArgumentException(nameof(_bullets));
         }
     }
 }
@@ -52,7 +52,7 @@ public class Player
         else
         {
             _health = 0;
-            Console.WriteLine("Player died.");
+            throw new ArgumentException(nameof(_health));
         }
     }
 }
