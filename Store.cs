@@ -1,19 +1,39 @@
-﻿Good iPhone12 = new Good("IPhone 12");
-Good iPhone11 = new Good("IPhone 11");
+﻿using System;
 
-Warehouse warehouse = new Warehouse();
+namespace Grinding_task_2
+{
+    class Programm
+    {
+        static void Main(string[] args)
+        {
+            Good iPhone12 = new Good("IPhone 12");
+            Good iPhone11 = new Good("IPhone 11");
 
-Shop shop = new Shop(warehouse);
+            Warehouse warehouse = new Warehouse();
 
-warehouse.Delive(iPhone12, 10);
-warehouse.Delive(iPhone11, 1);
+            Shop shop = new Shop(warehouse);
 
-//Вывод всех товаров на складе с их остатком
+            warehouse.Add(iPhone12, 10);
+            warehouse.Add(iPhone11, 1);
 
-Cart cart = shop.Cart();
-cart.Add(iPhone12, 4);
-cart.Add(iPhone11, 3); //при такой ситуации возникает ошибка так, как нет нужного количества товара на складе
+            Console.WriteLine("Товары на складе.");
+            foreach (IReadOnlyCell cell in warehouse.Cells)
+                cell.Show();
 
-//Вывод всех товаров в корзине
+            Cart cart = shop.GiveCart();
 
-Console.WriteLine(cart.Order().Paylink);
+            cart.Add(iPhone12, 4);
+            cart.Add(iPhone11, 3);
+
+            Console.WriteLine("Товары в корзине.");
+            foreach (var cell in cart.GiveOrder())
+                cell.Show();
+
+            Random random = new Random();
+            int randomIndex = random.Next(cart.GiveOrder().Count);
+
+            Console.WriteLine("Случайная строка заказа.");
+            cart.GiveOrder()[randomIndex].Show();
+        }
+    }
+}
