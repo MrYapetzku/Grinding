@@ -7,34 +7,80 @@ namespace Inhatitance_task_1
     {
         static void Main(string[] args)
         {
-
+            Pathfinder pathfinder1 = new Pathfinder(new FileLogWritter());
+            Pathfinder pathfinder2 = new Pathfinder(new ConsoleLogWritter());
+            Pathfinder pathfinder3 = new Pathfinder(new DayOfWeekLogWritter(new FileLogWritter(), DayOfWeek.Friday));
+            Pathfinder pathfinder4 = new Pathfinder(new DayOfWeekLogWritter(new ConsoleLogWritter(), DayOfWeek.Friday));
+            Pathfinder pathfinder5 = new Pathfinder(new ConsoleLogWritter(new DayOfWeekLogWritter(new FileLogWritter(), DayOfWeek.Friday)));
         }
     }
 
-    class ConsoleLogWritter
+    public class ConsoleLogWritter : ILogger
     {
-        public virtual void WriteError(string message)
+        private ILogger _logger;
+
+        public ConsoleLogWritter()
+        {
+        }
+
+        public ConsoleLogWritter(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public void WriteError(string message)
         {
             Console.WriteLine(message);
+            if (_logger == null)
+                return;
+            _logger.WriteError(message);
         }
     }
 
-    class FileLogWritter
+    public class FileLogWritter : ILogger
     {
-        public virtual void WriteError(string message)
+        private ILogger _logger;
+
+        public FileLogWritter()
+        {
+        }
+
+        public FileLogWritter(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public void WriteError(string message)
         {
             File.WriteAllText("log.txt", message);
+            if (_logger == null)
+                return;
+            _logger.WriteError(message);
         }
     }
 
-    class SecureConsoleLogWritter : ConsoleLogWritter
+    public class DayOfWeekLogWritter : ILogger
     {
-        public override void WriteError(string message)
+        private ILogger _logger;
+        private DayOfWeek _dayOfWeek;
+
+        public DayOfWeekLogWritter(ILogger logger, DayOfWeek dayOfWeek)
         {
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Friday)
+            _logger = logger;
+            _dayOfWeek = dayOfWeek;
+        }
+
+        public void WriteError(string message)
+        {
+            if (DateTime.Now.DayOfWeek == _dayOfWeek)
             {
-                base.WriteError(message);
+                _logger.WriteError(message);
             }
         }
+    }
+
+    public interface ILogger
+    {
+        public void WriteError(string message);
     }
 }
