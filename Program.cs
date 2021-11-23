@@ -8,16 +8,17 @@ namespace Inharitance_task_2
     {
         static void Main(string[] args)
         {
-            PaymentSystem paymentSystem1 = new PaymentSystem(new LinkRule1("pay.system1.ru/order?amount=12000RUB&hash="));
-            PaymentSystem paymentSystem2 = new PaymentSystem(new LinkRule2("order.system2.ru/pay?hash="));
-            PaymentSystem paymentSystem3 = new PaymentSystem(new LinkRule3("system3.com/pay?amount=12000&curency=RUB&hash="));
+            PaymentSystem paymentSystem1 = new PaymentSystem(new MD5Rule(), new OrderRule1(), "pay.system1.ru/order?amount=12000RUB&hash=");
+            PaymentSystem paymentSystem2 = new PaymentSystem(new MD5Rule(), new OrderRule2(), "order.system2.ru/pay?hash=");
+            PaymentSystem paymentSystem3 = new PaymentSystem(new SHA1Rule(), new OrderRule3("SECRETKEY"), "system3.com/pay?amount=12000&curency=RUB&hash=");
 
             Order order = new Order(1367, 12000);
 
-            Console.WriteLine(paymentSystem1.GetPayingLink(order));
-            Console.WriteLine(paymentSystem2.GetPayingLink(order));
-            Console.WriteLine(paymentSystem3.GetPayingLink(order));
+            LinkViewer linkViewer = new LinkViewer();
 
+            linkViewer.ShowPayingLink(paymentSystem1.GetPayingLink(order));
+            linkViewer.ShowPayingLink(paymentSystem2.GetPayingLink(order));
+            linkViewer.ShowPayingLink(paymentSystem3.GetPayingLink(order));
         }
     }
 
@@ -29,20 +30,32 @@ namespace Inharitance_task_2
         public Order(int id, int amount) => (Id, Amount) = (id, amount);
     }
 
-    public class LinkRule1 : ILinkRule
+    public class LinkViewer
     {
+        public void ShowPayingLink(string link)
+        {
+            Console.WriteLine(link);
+        }
+    }
+
+    public class PaymentSystem : IPaymentSystem
+    {
+        private IHashRule _hashRule;
+        private IOderRule _orderRule;
         private string _link;
 
-        public LinkRule1(string link)
+        public PaymentSystem(IHashRule hashRule, IOderRule oderRule, string link)
         {
+            _hashRule = hashRule;
+            _orderRule = oderRule;
             _link = link;
         }
 
-        public string GetLink(Order order)
+        public string GetPayingLink(Order order)
         {
-            MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(order.Id.ToString());
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
+            string orderData = _orderRule.GetOrderData(order);
+            byte[] inputBytes = Encoding.ASCII.GetBytes(orderData);
+            byte[] hashBytes = _hashRule.GetHash(inputBytes);
 
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < hashBytes.Length; i++)
@@ -54,74 +67,63 @@ namespace Inharitance_task_2
         }
     }
 
-    public class LinkRule2 : ILinkRule
+    public class OrderRule1 : IOderRule
     {
-        private string _link;
-
-        public LinkRule2(string link)
+        public string GetOrderData(Order order)
         {
-            _link = link;
+            return $"{order.Id}";
+        }
+    }
+
+    public class OrderRule2 : IOderRule
+    {
+        public string GetOrderData(Order order)
+        {
+            return $"{order.Id}{order.Amount}";
+        }
+    }
+
+    public class OrderRule3 : IOderRule
+    {
+        private string _secretKey;
+
+        public OrderRule3(string secretKey)
+        {
+            _secretKey = secretKey;
         }
 
-        public string GetLink(Order order)
+        public string GetOrderData(Order order)
+        {
+            return $"{order.Amount}{order.Id}{_secretKey}";
+        }
+    }
+
+    public class MD5Rule : IHashRule
+    {
+        public byte[] GetHash(byte[] input)
         {
             MD5 md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(order.Id.ToString());
-            byte[] hashBytes = md5.ComputeHash(inputBytes);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                stringBuilder.Append(hashBytes[i].ToString("X2"));
-            }
-
-            return $"{_link}{stringBuilder}{order.Amount}";
+            return md5.ComputeHash(input);
         }
     }
 
-    public class LinkRule3 : ILinkRule
+    public class SHA1Rule : IHashRule
     {
-        private string _link;
-
-        public LinkRule3(string link)
-        {
-            _link = link;
-        }
-
-        public string GetLink(Order order)
+        public byte[] GetHash(byte[] input)
         {
             SHA1 sha1 = SHA1.Create();
-            byte[] inputBytes = Encoding.UTF8.GetBytes(order.Id.ToString());
-            byte[] hashBytes = sha1.ComputeHash(inputBytes);
-
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < hashBytes.Length; i++)
-            {
-                stringBuilder.Append(hashBytes[i].ToString("X2"));
-            }
-
-            return $"{_link}{stringBuilder}{order.Id}<секретный ключ>";
+            return sha1.ComputeHash(input);
         }
+    }    
+
+    public interface IOderRule
+    {
+        public string GetOrderData(Order order);
     }
 
-    public class PaymentSystem : IPaymentSystem
+    public interface IHashRule
     {
-        private ILinkRule _linkRule;
-
-        public PaymentSystem(ILinkRule linkRule)
-        {
-            _linkRule = linkRule;
-        }
-
-        public string GetPayingLink(Order order)
-        {
-            return _linkRule.GetLink(order);
-        }
-    }
-
-    public interface ILinkRule
-    {
-        public string GetLink(Order order);
+        public byte[] GetHash(byte[] input);
     }
 
     public interface IPaymentSystem
