@@ -5,16 +5,16 @@ public class Weapon
     private readonly int _damage;
     private int _bullets;
 
-    public Weapon(int damage, int startBulletsCount)
+    public Weapon(int damage, int bullets)
     {
         if (damage < 0)
             throw new ArgumentOutOfRangeException(nameof(damage));
 
-        if (startBulletsCount < 0)
-            throw new ArgumentOutOfRangeException(nameof(startBulletsCount));
+        if (bullets < 0)
+            throw new ArgumentOutOfRangeException(nameof(bullets));
 
         _damage = damage;
-        _bullets = startBulletsCount;
+        _bullets = bullets;
     }
 
     public void Fire(Player player)
@@ -45,14 +45,14 @@ public class Player
 
     public void TakeDamage(int damage)
     {
-        if (damage < _health)
+        if (damage > _health)
         {
-            _health -= damage;
+            _health = 0;
+            throw new ArgumentOutOfRangeException(nameof(_health));
         }
         else
         {
-            _health = 0;
-            throw new ArgumentException(nameof(_health));
+            _health -= damage;
         }
     }
 }
