@@ -9,7 +9,7 @@
             _cart = new Cart(warehouse);
         }
 
-        public Cart GiveCart()
+        public Cart Cart()
         {
             return _cart;
         }

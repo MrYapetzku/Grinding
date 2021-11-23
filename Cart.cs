@@ -14,17 +14,30 @@ namespace Grinding_task_2
             _warehouse = warehouse;
         }
 
+        public IReadOnlyList<IReadOnlyCell> Cells => _cells;
+
         public void Add(Good good, int count)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            _cells.Add(_warehouse.Give(good, count));
+            _cells.Add(_warehouse.Get(good, count));
         }
 
-        public IReadOnlyList<IReadOnlyCell> GiveOrder()
+        public Order Order()
         {
-            return _cells;
+            Order order = new Order(_cells, "store.com/paylink");
+            _cells.Clear();
+
+            return order;
+        }
+
+        public void CancelOrder()
+        {
+            foreach (var cell in _cells)
+                _warehouse.Add(cell.Good, cell.Count);
+
+            _cells.Clear();
         }
     }
 }

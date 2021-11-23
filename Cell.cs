@@ -34,18 +34,11 @@ namespace Grinding_task_2
 
             Count -= count;
         }
-
-        public void Show()
-        {
-            Console.WriteLine($"Товар: {Good.Name} - {Count} шт.");
-        }
     }
 
     public interface IReadOnlyCell
     {
         public Good Good { get; }
         public int Count { get; }
-
-        public void Show();
     }
 }

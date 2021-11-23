@@ -6,6 +6,7 @@ namespace Grinding_task_2
     {
         static void Main(string[] args)
         {
+            CellsViewer cellsViewer = new CellsViewer();
             Good iPhone12 = new Good("IPhone 12");
             Good iPhone11 = new Good("IPhone 11");
 
@@ -16,24 +17,18 @@ namespace Grinding_task_2
             warehouse.Add(iPhone12, 10);
             warehouse.Add(iPhone11, 1);
 
-            Console.WriteLine("Товары на складе.");
-            foreach (IReadOnlyCell cell in warehouse.Cells)
-                cell.Show();
+            cellsViewer.ShowCells(warehouse.Cells);
 
-            Cart cart = shop.GiveCart();
+            Cart cart = shop.Cart();
 
             cart.Add(iPhone12, 4);
             cart.Add(iPhone11, 3);
 
-            Console.WriteLine("Товары в корзине.");
-            foreach (var cell in cart.GiveOrder())
-                cell.Show();
+            cellsViewer.ShowCells(cart.Cells);
 
-            Random random = new Random();
-            int randomIndex = random.Next(cart.GiveOrder().Count);
+            Console.WriteLine(cart.Order().Paylink);
 
-            Console.WriteLine("Случайная строка заказа.");
-            cart.GiveOrder()[randomIndex].Show();
+            cart.Add(iPhone12, 9);
         }
     }
 }

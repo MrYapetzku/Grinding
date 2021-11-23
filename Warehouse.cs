@@ -30,7 +30,7 @@ namespace Grinding_task_2
                 cell.Merge(newCell);
         }
 
-        public Cell Give(Good good, int count)
+        public Cell Get(Good good, int count)
         {
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
