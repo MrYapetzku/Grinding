@@ -2,7 +2,7 @@
 {
     public class Pathfinder
     {
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         public Pathfinder(ILogger logger)
         {
