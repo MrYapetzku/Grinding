@@ -8,10 +8,10 @@ namespace Inharitance_task_2
         private readonly IOrderRule _orderRule;
         private readonly string _link;
 
-        public PaymentSystem(IHashRule hashRule, IOrderRule oderRule, string link)
+        public PaymentSystem(IHashRule hashRule, IOrderRule orderRule, string link)
         {
             _hashRule = hashRule;
-            _orderRule = oderRule;
+            _orderRule = orderRule;
             _link = link;
         }
 
