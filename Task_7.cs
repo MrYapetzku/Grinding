@@ -1,0 +1,14 @@
+﻿namespace Grinding
+{
+    internal class Task_7
+    {
+        public static int Rummage(int[] array, int element)
+        {
+            for (int i = 0; i < array.Length; i++)
+                if (array[i] == element)
+                    return i;
+
+            return -1;
+        }
+    }
+}
