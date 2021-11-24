@@ -2,7 +2,7 @@
 {
     internal class Task_2
     {
-        public static int MakeValidNumber(int a, int b, int c)
+        public static int FindMinimum(int a, int b, int c)
         {
             if (a < b)
                 return b;
