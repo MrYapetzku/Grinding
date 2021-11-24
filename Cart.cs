@@ -32,7 +32,7 @@ namespace Grinding_task_2
             return order;
         }
 
-        public void CancelOrder()
+        public void Cancel()
         {
             foreach (var cell in _cells)
                 _warehouse.Add(cell.Good, cell.Count);
