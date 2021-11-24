@@ -4,9 +4,6 @@ namespace Grinding_task_2
 {
     public class Cell : IReadOnlyCell
     {
-        public Good Good { get; private set; }
-        public int Count { get; private set; }
-
         public Cell(Good good, int count)
         {
             if (count < 0)
@@ -15,6 +12,10 @@ namespace Grinding_task_2
             Good = good;
             Count = count;
         }
+
+        public Good Good { get; private set; }
+
+        public int Count { get; private set; }
 
         public void Merge(Cell newCell)
         {
@@ -34,11 +35,5 @@ namespace Grinding_task_2
 
             Count -= count;
         }
-    }
-
-    public interface IReadOnlyCell
-    {
-        public Good Good { get; }
-        public int Count { get; }
     }
 }

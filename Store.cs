@@ -2,9 +2,9 @@
 
 namespace Grinding_task_2
 {
-    class Programm
+    internal class Store
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             CellsViewer cellsViewer = new CellsViewer();
             Good iPhone12 = new Good("IPhone 12");
