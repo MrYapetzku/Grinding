@@ -1,6 +1,6 @@
 ﻿namespace Inharitance_task_2
 {
-    public class OrderRule3 : IOderRule
+    public class OrderRule3 : IOrderRule
     {
         private readonly string _secretKey;
 

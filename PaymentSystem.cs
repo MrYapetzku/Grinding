@@ -5,10 +5,10 @@ namespace Inharitance_task_2
     public class PaymentSystem : IPaymentSystem
     {
         private readonly IHashRule _hashRule;
-        private readonly IOderRule _orderRule;
+        private readonly IOrderRule _orderRule;
         private readonly string _link;
 
-        public PaymentSystem(IHashRule hashRule, IOderRule oderRule, string link)
+        public PaymentSystem(IHashRule hashRule, IOrderRule oderRule, string link)
         {
             _hashRule = hashRule;
             _orderRule = oderRule;

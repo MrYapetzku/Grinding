@@ -1,6 +1,6 @@
 ﻿namespace Inharitance_task_2
 {
-    public interface IOderRule
+    public interface IOrderRule
     {
         public string GetOrderData(Order order);
     }
