@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Inharitance_task_2
 {
@@ -10,9 +11,9 @@ namespace Inharitance_task_2
 
         public PaymentSystem(IHashRule hashRule, IOrderRule orderRule, string link)
         {
-            _hashRule = hashRule;
-            _orderRule = orderRule;
-            _link = link;
+            _hashRule = hashRule ?? throw new ArgumentNullException(nameof(hashRule));
+            _orderRule = orderRule ?? throw new ArgumentNullException(nameof(orderRule));
+            _link = link ?? throw new ArgumentNullException(nameof(link));
         }
 
         public string GetPayingLink(Order order)

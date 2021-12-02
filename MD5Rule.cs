@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 
 namespace Inharitance_task_2
 {
@@ -6,6 +7,9 @@ namespace Inharitance_task_2
     {
         public byte[] GetHash(byte[] input)
         {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+
             MD5 md5 = MD5.Create();
             return md5.ComputeHash(input);
         }
