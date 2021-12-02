@@ -1,4 +1,6 @@
-﻿namespace Inhatitance_task_1
+﻿using System;
+
+namespace Inhatitance_task_1
 {
     public class Pathfinder
     {
@@ -6,7 +8,7 @@
 
         public Pathfinder(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void Find(string massage)

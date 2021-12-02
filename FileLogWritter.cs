@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Inhatitance_task_1
 {
@@ -12,7 +13,7 @@ namespace Inhatitance_task_1
 
         public FileLogWritter(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void WriteError(string message)

@@ -12,7 +12,7 @@ namespace Inhatitance_task_1
 
         public ConsoleLogWritter(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void WriteError(string message)

@@ -9,7 +9,8 @@ namespace Inhatitance_task_1
 
         public DayOfWeekLogWritter(ILogger logger, DayOfWeek dayOfWeek)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
             _dayOfWeek = dayOfWeek;
         }
 
