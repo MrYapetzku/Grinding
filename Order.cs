@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Grinding_task_2
 {
@@ -6,8 +7,8 @@ namespace Grinding_task_2
     {
         public Order(List<Cell> cells, string paylink)
         {
-            Cells = cells;
-            Paylink = paylink;
+            Cells = cells ?? throw new ArgumentNullException(nameof(cells));
+            Paylink = paylink ?? throw new ArgumentNullException(nameof(paylink));
         }
 
         public IReadOnlyList<IReadOnlyCell> Cells { get; private set; }

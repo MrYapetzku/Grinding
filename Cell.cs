@@ -9,7 +9,7 @@ namespace Grinding_task_2
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            Good = good;
+            Good = good ?? throw new ArgumentNullException(nameof(good));
             Count = count;
         }
 

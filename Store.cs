@@ -4,7 +4,7 @@ namespace Grinding_task_2
 {
     internal class Store
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             CellsViewer cellsViewer = new CellsViewer();
             Good iPhone12 = new Good("IPhone 12");

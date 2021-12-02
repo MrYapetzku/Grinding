@@ -1,11 +1,16 @@
-﻿namespace Grinding_task_2
+﻿using System;
+
+namespace Grinding_task_2
 {
     public class Shop
     {
-        private Cart _cart;
+        private readonly Cart _cart;
 
         public Shop(Warehouse warehouse)
         {
+            if (warehouse == null)
+                throw new ArgumentNullException(nameof(warehouse));
+
             _cart = new Cart(warehouse);
         }
 

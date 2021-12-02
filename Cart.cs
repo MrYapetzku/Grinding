@@ -5,19 +5,22 @@ namespace Grinding_task_2
 {
     public class Cart
     {
-        private readonly List<Cell> _cells;
         private readonly Warehouse _warehouse;
+        private readonly List<Cell> _cells;
 
         public Cart(Warehouse warehouse)
         {
+            _warehouse = warehouse ?? throw new ArgumentNullException(nameof(warehouse));
             _cells = new List<Cell>();
-            _warehouse = warehouse;
         }
 
         public IReadOnlyList<IReadOnlyCell> Cells => _cells;
 
         public void Add(Good good, int count)
         {
+            if (good == null)
+                throw new ArgumentNullException(nameof(good));
+
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 

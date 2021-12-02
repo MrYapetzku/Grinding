@@ -17,6 +17,9 @@ namespace Grinding_task_2
 
         public void Add(Good good, int count)
         {
+            if (good == null)
+                throw new ArgumentNullException(nameof(good));
+
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
@@ -32,6 +35,9 @@ namespace Grinding_task_2
 
         public Cell Get(Good good, int count)
         {
+            if (good == null)
+                throw new ArgumentNullException(nameof(good));
+
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
