@@ -1,4 +1,6 @@
-﻿namespace Encapsulation_task_1
+﻿using System;
+
+namespace Encapsulation_task_1
 {
     public class Bot
     {
@@ -6,7 +8,7 @@
 
         public Bot(Weapon weapon)
         {
-            _weapon = weapon;
+            _weapon = weapon ?? throw new ArgumentNullException(nameof(weapon));
         }
 
         public void OnSeePlayer(Player player)

@@ -6,19 +6,18 @@ namespace Encapsulation_task_1
     {
         private int _health;
 
-        public Player(int startHealth)
+        public Player(int health)
         {
-            if (startHealth <= 0)
-                throw new ArgumentOutOfRangeException(nameof(startHealth));
+            if (health <= 0)
+                throw new ArgumentOutOfRangeException(nameof(health));
 
-            _health = startHealth;
+            _health = health;
         }
 
         public void TakeDamage(int damage)
         {
             if (damage > _health)
             {
-                _health = 0;
                 throw new ArgumentOutOfRangeException(nameof(_health));
             }
             else

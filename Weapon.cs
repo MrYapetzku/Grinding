@@ -21,14 +21,14 @@ namespace Encapsulation_task_1
 
         public void Fire(Player player)
         {
-            if (_bullets > 0)
+            if (_bullets <= 0)
             {
-                player.TakeDamage(_damage);
-                _bullets -= 1;
+                throw new ArgumentException(nameof(_bullets));
             }
             else
             {
-                throw new ArgumentException(nameof(_bullets));
+                player.TakeDamage(_damage);
+                _bullets -= 1;
             }
         }
     }
