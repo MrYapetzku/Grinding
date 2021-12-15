@@ -2,8 +2,8 @@
 {
     internal class Task11
     {
-        int iArmySize = 10;
-        int coinsNumber = 10;
-        string strName = "Vladislav";
+        private int _army = 10;
+        private int _coins = 10;
+        private string _name = "Vladislav";
     }
 }
