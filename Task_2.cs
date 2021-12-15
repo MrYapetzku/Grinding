@@ -2,14 +2,14 @@
 {
     internal class Task_2
     {
-        public static int FindMinimum(int a, int b, int c)
+        public static int Clamp(int value, int min, int max)
         {
-            if (a < b)
-                return b;
-            else if (a > c)
-                return c;
+            if (value < min)
+                return min;
+            else if (value > max)
+                return max;
             else
-                return a;
+                return value;
         }
     }
 }
