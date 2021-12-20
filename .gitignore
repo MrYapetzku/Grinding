@@ -77,3 +77,4 @@ crashlytics-build.properties
 
 /bin/Debug/netcoreapp3.1
 *.editorconfig
+/UpgradeLog.htm
