@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Grinding_task_2
 {
     public class Warehouse
     {
-        private readonly List<Cell> _cells;
+        private readonly Dictionary<Good, int> _cells;
 
         public Warehouse()
         {
-            _cells = new List<Cell>();
+            _cells = new Dictionary<Good, int>();
         }
 
-        public IReadOnlyList<IReadOnlyCell> Cells => _cells;
+        public IReadOnlyDictionary<Good, int> Cells => _cells;
 
-        public void Add(Good good, int count)
+        public virtual void Add(Good good, int count)
         {
             if (good == null)
                 throw new ArgumentNullException(nameof(good));
@@ -23,35 +22,21 @@ namespace Grinding_task_2
             if (count < 0)
                 throw new ArgumentOutOfRangeException(nameof(count));
 
-            var newCell = new Cell(good, count);
-
-            Cell cell = _cells.FirstOrDefault(cell => cell.Good == good);
-
-            if (cell == null)
-                _cells.Add(newCell);
+            if (_cells.ContainsKey(good))
+                _cells[good] += count;
             else
-                cell.Merge(newCell);
+                _cells.Add(good, count);
         }
 
-        public Cell Get(Good good, int count)
+        public void Remove(Good good, int count)
         {
-            if (good == null)
-                throw new ArgumentNullException(nameof(good));
-
-            if (count < 0)
-                throw new ArgumentOutOfRangeException(nameof(count));
-
-            Cell cell = _cells.FirstOrDefault(cell => cell.Good == good);
-
-            if (cell == null)
-            {
+            if (_cells.ContainsKey(good) == false)
                 throw new ArgumentException(nameof(good));
-            }
-            else
-            {
-                cell.Decrease(good, count);
-                return new Cell(good, count);
-            }
+
+            if (count < 0 || count > _cells[good])
+                throw new ArgumentOutOfRangeException(nameof(count));
+
+            _cells[good] -= count;
         }
     }
 }

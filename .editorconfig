@@ -8,3 +8,6 @@ dotnet_diagnostic.SA1309.severity=silent
 dotnet_diagnostic.SA1109.severity=warning
 dotnet_diagnostic.SA1101.severity=silent
 dotnet_diagnostic.SA1503.severity=silent
+
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = none
