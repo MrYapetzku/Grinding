@@ -4,6 +4,8 @@ namespace Encapsulation_task_1
 {
     public class Weapon
     {
+        private const int BulletsPerShot = 1;
+
         private readonly int _damage;
         private int _bullets;
 
@@ -21,15 +23,11 @@ namespace Encapsulation_task_1
 
         public void Fire(Player player)
         {
-            if (_bullets <= 0)
-            {
+            if (_bullets < BulletsPerShot)
                 throw new ArgumentException(nameof(_bullets));
-            }
-            else
-            {
-                player.TakeDamage(_damage);
-                _bullets -= 1;
-            }
+
+            player.TakeDamage(_damage);
+            _bullets -= BulletsPerShot;
         }
     }
 }

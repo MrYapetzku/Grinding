@@ -17,13 +17,9 @@ namespace Encapsulation_task_1
         public void TakeDamage(int damage)
         {
             if (damage > _health)
-            {
                 throw new ArgumentOutOfRangeException(nameof(_health));
-            }
-            else
-            {
-                _health -= damage;
-            }
+
+            _health -= damage;
         }
     }
 }
